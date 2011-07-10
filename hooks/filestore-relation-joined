@@ -1,0 +1,5 @@
+#!/bin/sh
+set -ue
+
+relation-set hostname=`hostname -f`
+
