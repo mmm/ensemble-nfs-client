@@ -16,11 +16,13 @@ remote_ip=`dig +short $remote_host|head -n 1`
 echo "NFS client test formula"
 echo $remote_ip
 
-local_mountpoint=`config-get local_mountpoint`
+#local_mountpoint=`config-get local_mountpoint`
+local_mountpoint="/opt/${remote_host}"
 mkdir -p $local_mountpoint
 
-local_owner=`config-get owner`
-chown -f $owner $local_mountpoint
+#local_owner=`config-get owner`
+local_owner="ubuntu"
+chown -f $local_owner $local_mountpoint
 
 mount -t $fstype -o $options $remote_host:$mountpoint $local_mountpoint
 
