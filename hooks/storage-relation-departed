@@ -5,5 +5,5 @@ set -ue
 local_mountpoint=${config_mountpoint:-"/opt/mount"} # `config-get mountpoint`
 
 umount $local_mountpoint
-[ -z $? ] || ensemble-log "umount failed: $local_mountpoint"
+[ $? -eq 0 ] || ensemble-log "umount failed: $local_mountpoint"
 
