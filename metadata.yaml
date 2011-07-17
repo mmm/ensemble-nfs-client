@@ -1,13 +1,12 @@
 ensemble: formula
 name: nfs-client
-revision: 11
+revision: 15
 summary: NFS client test formula
 description: |
   Provides an NFS client to test the primary NFS formula.
   This is intended to be an example formula only.  It shows
   which hooks formulas need to implement to consume the
-  mount interface for and nfs filestore service.
+  mount interface for a NFS filestore service.
 requires:
-  filestore:
+  storage:
     interface: mount
-    optional: true

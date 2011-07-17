@@ -1,0 +1,6 @@
+
+# move this to config.yaml when that lands in ensemble
+
+config_mountpoint="/opt/storage"
+config_owner="ubuntu"
+

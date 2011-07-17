@@ -1,0 +1,31 @@
+#!/bin/bash
+set -ue
+
+[[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
+local_mountpoint=${config_mountpoint:-"/opt/mount"} # `config-get mountpoint`
+local_owner=${config_owner:-"ubuntu"} # `config-get owner`
+
+hostname=`hostname -f`
+mountpoint=`relation-get mountpoint`
+fstype=`relation-get fstype`
+options=`relation-get options`
+remote_host=`relation-get hostname`
+if [ -z "$remote_host" ] ; then
+    ensemble-log "remote host not set yet."
+    exit 0
+fi
+
+create_mountpoint() {
+  umask 002
+  mkdir -p $local_mountpoint
+  # create owner if necessary?
+  chown -f $local_owner $local_mountpoint
+}
+
+mount_share() {
+  mount -t $fstype -o $options $remote_host:$mountpoint $local_mountpoint
+  [ -z $? ] || ensemble-log "mount failed: $local_mountpoint"
+}
+
+create_mountpoint 
+mount_share 
