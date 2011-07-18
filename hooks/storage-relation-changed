@@ -19,7 +19,7 @@ create_mountpoint() {
   umask 002
   mkdir -p $local_mountpoint
   # create owner if necessary?
-  chown -f $local_owner $local_mountpoint
+  chown -f $local_owner.$local_owner $local_mountpoint
 }
 
 mount_share() {
@@ -27,5 +27,11 @@ mount_share() {
   [ $? -eq 0 ] || ensemble-log "mount failed: $local_mountpoint"
 }
 
+ensemble-log "creating local mountpoint"
 create_mountpoint 
+
+ensemble-log "mounting nfs share"
 mount_share 
+
+ensemble-log "done"
+

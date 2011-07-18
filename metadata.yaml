@@ -1,6 +1,6 @@
 ensemble: formula
 name: nfs-client
-revision: 15
+revision: 17
 summary: NFS client test formula
 description: |
   Provides an NFS client to test the primary NFS formula.
