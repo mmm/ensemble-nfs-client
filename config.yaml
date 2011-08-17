@@ -1,0 +1,9 @@
+options:
+  mountpoint:
+    type: str 
+    default: /opt/storage
+    description: The path to mount the network share
+  owner:
+    type: str 
+    default: ubuntu
+    description: The owner of the mountpoint

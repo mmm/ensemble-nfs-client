@@ -1,5 +1,4 @@
 #!/bin/sh
 set -ue
 
-relation-set hostname=`hostname -f`
-
+relation-set client=`hostname -f`
