@@ -1,7 +1,3 @@
 #!/bin/bash
 
-apt-get install -y nfs-common
-
-sed -i -e "s/NEED_IDMAPD.*/NEED_IDMAPD=yes/" /etc/default/nfs-common
-service idmapd start
 

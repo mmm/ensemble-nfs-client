@@ -26,11 +26,15 @@ share_already_mounted() {
   `mount | grep -q $local_mountpoint`
 }
 mount_share() {
-  ensemble-log "mounting nfs share"
-  #options=""
-  #mount -t $fstype -o $options $remote_host:$export_path $local_mountpoint
-  mount -t $fstype $remote_host:$export_path $local_mountpoint
-  [ $? -eq 0 ] || ensemble-log "mount failed: $local_mountpoint"
+  local retry=3
+  while [ $retry -gt 0 ]; do
+    ensemble-log "mounting nfs share"
+    #options=""
+    #mount -t $fstype -o $options $remote_host:$export_path $local_mountpoint
+    mount -t $fstype $remote_host:$export_path $local_mountpoint
+    [ $? -eq 0 ] || ensemble-log "mount failed: $local_mountpoint"
+
+  done
 }
 share_already_mounted || mount_share 
 
