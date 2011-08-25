@@ -11,6 +11,7 @@ fstype=`relation-get fstype`
 
 local_mountpoint=`config-get mountpoint`
 local_owner=`config-get owner`
+mount_options=""
 
 create_local_mountpoint() {
   ensemble-log "creating local mountpoint"
@@ -22,17 +23,14 @@ create_local_mountpoint() {
 [ -d $local_mountpoint ] || create_local_mountpoint 
 
 share_already_mounted() {
-  # better way to do this?  
-  #maybe... mount | awk -v mnt=$local_mountpoint '{ if ($3 == mnt) print $0 }'
   `mount | grep -q $local_mountpoint`
 }
 mount_share() {
   for try in {1..3}; do
 
     ensemble-log "mounting nfs share"
-    #options=""
-    #mount -t $fstype -o $options $remote_host:$export_path $local_mountpoint
-    mount -t $fstype $remote_host:$export_path $local_mountpoint \
+    [ ! -z $mount_options ] && options="-o ${mount_options}" || options=""
+    mount -t $fstype $options $remote_host:$export_path $local_mountpoint \
       && break
 
     ensemble-log "mount failed: $local_mountpoint"
@@ -42,4 +40,5 @@ mount_share() {
 }
 share_already_mounted || mount_share 
 
-
+# ownership
+chown -f $local_owner.$local_owner $local_mountpoint
