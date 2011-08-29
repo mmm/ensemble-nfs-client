@@ -3,6 +3,13 @@ set -ue
 
 local_mountpoint=`config-get mountpoint`
 
-umount $local_mountpoint
-[ $? -eq 0 ] || ensemble-log "umount failed: $local_mountpoint"
+nfs_share_mounted() {
+  `mount -t nfs | grep -q $local_mountpoint`
+}
+umount_share() {
+  ensemble-log "mounting nfs share"
+  umount $local_mountpoint
+  [ $? -eq 0 ] || ensemble-log "umount failed: $local_mountpoint"
+}
+nfs_share_mounted && umount_share 
 
